@@ -1,0 +1,73 @@
+/* app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* IntentLink Design System Mapping to Shadcn UI Variables */
+    
+    /* Backgrounds */
+    --background: 3 4% 7%; /* space-900: #030407 */
+    --foreground: 210 40% 98%; /* Default text color (light gray/white) */
+    
+    /* Cards & Containers (Glassmorphism) */
+    --card: 11 12% 21%; /* space-800: #0B0C15 (with opacity applied in components) */
+    --card-foreground: 210 40% 98%;
+
+    /* Popovers, Modals */
+    --popover: 3 4% 7%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Primary Actions (Buttons, Links) - Cyber Cyan */
+    --primary: 187 100% 50%; /* cyber-cyan: #00F0FF */
+    --primary-foreground: 3 4% 7%; /* space-900 for text on buttons */
+    
+    /* Secondary Actions */
+    --secondary: 23 25% 15%; /* space-700: #151725 */
+    --secondary-foreground: 210 40% 98%;
+
+    /* Muted Text & Borders */
+    --muted: 23 25% 15%;
+    --muted-foreground: 215 20.2% 65.1%; /* A lighter gray */
+
+    /* Accent Colors (Hovers, Focus Rings) - Cyber Purple */
+    --accent: 262 100% 50%; /* cyber-purple: #7000FF */
+    --accent-foreground: 210 40% 98%;
+
+    /* Destructive/Error States - DeFi Error */
+    --destructive: 0 100% 58%; /* defi-error: #FF2A2A */
+    --destructive-foreground: 210 40% 98%;
+
+    /* Borders & Rings */
+    --border: 255 255% 255% / 0.1; /* glass-stroke */
+    --input: 23 25% 15%; /* space-700 */
+    --ring: 187 100% 50%; /* cyber-cyan for focus rings */
+
+    /* Radius */
+    --radius: 0.75rem; /* rounded-xl by default */
+  }
+
+  .dark {
+    /* All the same variables as we are dark-mode by default */
+    --background: 3 4% 7%;
+    --foreground: 210 40% 98%;
+    --card: 11 12% 21%;
+    --card-foreground: 210 40% 98%;
+    --popover: 3 4% 7%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 187 100% 50%;
+    --primary-foreground: 3 4% 7%;
+    --secondary: 23 25% 15%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 23 25% 15%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 262 100% 50%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 100% 58%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 255 255% 255% / 0.1;
+    --input: 23 25% 15%;
+    --ring: 187 100% 50%;
+  }
+}
