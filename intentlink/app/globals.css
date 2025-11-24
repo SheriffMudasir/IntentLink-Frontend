@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  /* Custom CSS variables for shadcn/ui compatibility */
+  --color-background: 3 4% 7%;
+  --color-foreground: 210 40% 98%;
+  --color-card: 11 12% 21%;
+  --color-card-foreground: 210 40% 98%;
+  --color-popover: 3 4% 7%;
+  --color-popover-foreground: 210 40% 98%;
+  --color-primary: 187 100% 50%;
+  --color-primary-foreground: 3 4% 7%;
+  --color-secondary: 23 25% 15%;
+  --color-secondary-foreground: 210 40% 98%;
+  --color-muted: 23 25% 15%;
+  --color-muted-foreground: 215 20.2% 65.1%;
+  --color-accent: 262 100% 50%;
+  --color-accent-foreground: 210 40% 98%;
+  --color-destructive: 0 100% 58%;
+  --color-destructive-foreground: 210 40% 98%;
+  --color-border: 0 0% 100% / 0.1;
+  --color-input: 23 25% 15%;
+  --color-ring: 187 100% 50%;
+  --radius: 0.75rem;
+}
+
+@layer base {
+  :root {
+    --background: 3 4% 7%;
+    --foreground: 210 40% 98%;
+    --card: 11 12% 21%;
+    --card-foreground: 210 40% 98%;
+    --popover: 3 4% 7%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 187 100% 50%;
+    --primary-foreground: 3 4% 7%;
+    --secondary: 23 25% 15%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 23 25% 15%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 262 100% 50%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 100% 58%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 0 0% 100% / 0.1;
+    --input: 23 25% 15%;
+    --ring: 187 100% 50%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 3 4% 7%;
+    --foreground: 210 40% 98%;
+    --card: 11 12% 21%;
+    --card-foreground: 210 40% 98%;
+    --popover: 3 4% 7%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 187 100% 50%;
+    --primary-foreground: 3 4% 7%;
+    --secondary: 23 25% 15%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 23 25% 15%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 262 100% 50%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 100% 58%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 0 0% 100% / 0.1;
+    --input: 23 25% 15%;
+    --ring: 187 100% 50%;
+  }
+}
