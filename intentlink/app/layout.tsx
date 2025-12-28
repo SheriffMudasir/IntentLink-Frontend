@@ -66,7 +66,7 @@ export default function RootLayout({
             {children}
           </div>
 
-          <ApiTestButton />
+          {/* ApiTestButton removed as per user request */}
           <Toaster theme="dark" position="bottom-right" />
         </WalletProvider>
       </body>

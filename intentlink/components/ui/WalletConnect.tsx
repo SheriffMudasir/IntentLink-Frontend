@@ -24,8 +24,7 @@ export function WalletConnect({ walletAddress, setWalletAddress }: WalletConnect
             setWalletAddress(accounts[0]);
             toast.success("Wallet Connected");
         }
-      } catch (err) {
-        console.error("Failed to connect wallet:", err);
+      } catch {
         toast.error("Failed to connect wallet. Please try again.");
       }
     } else {
@@ -47,8 +46,8 @@ export function WalletConnect({ walletAddress, setWalletAddress }: WalletConnect
           if (accounts.length > 0) {
             setWalletAddress(accounts[0].address);
           }
-        } catch (err) {
-          console.error("Error checking wallet connection:", err);
+        } catch {
+          // Silently fail - user can manually connect
         }
       }
     };

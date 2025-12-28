@@ -90,7 +90,7 @@ const CollisionMechanism = React.forwardRef<
       repeatDelay?: number;
     };
   }
->((props, _ref) => {
+>((props) => {
   const { beamOptions = {} } = props;
   const beamRef = useRef<HTMLDivElement>(null);
   const {

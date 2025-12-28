@@ -11,6 +11,7 @@ interface WalletContextType {
   walletAddress: string | null;
   isConnecting: boolean;
   chainId: number | null;
+  refreshTrigger: number;
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
 }
@@ -33,6 +34,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
   const [chainId, setChainId] = useState<number | null>(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   /**
    * Connects to the user's Web3 wallet
@@ -49,24 +51,25 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     setIsConnecting(true);
 
     try {
-      const accounts = await window.ethereum.request({ 
-        method: 'eth_requestAccounts' 
+      const accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts'
       }) as string[];
-      
+
       const provider = new ethers.BrowserProvider(window.ethereum);
-      
+
       if (accounts && accounts.length > 0) {
         const address = accounts[0] as string;
         setWalletAddress(address);
-        
+
         const network = await provider.getNetwork();
         const currentChainId = Number(network.chainId);
+
         setChainId(currentChainId);
-        
+
         toast.success('Wallet Connected', {
           description: `${address.substring(0, 6)}...${address.substring(address.length - 4)}`
         });
-        
+
         if (currentChainId !== 1043 && currentChainId !== 80002) {
           toast.warning('Wrong Network', {
             description: 'Please switch to BlockDAG Awakening Testnet (1043) or Polygon Amoy (80002)',
@@ -76,7 +79,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       }
     } catch (err) {
       const error = err as { code?: string; message?: string };
-      
+
       if (error.code === 'ACTION_REJECTED' || error.code === '4001') {
         toast.error('Connection rejected', {
           description: 'You rejected the wallet connection request'
@@ -106,14 +109,16 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         try {
           const provider = new ethers.BrowserProvider(window.ethereum);
           const accounts = await provider.listAccounts();
-          
+
           if (accounts.length > 0) {
             const address = accounts[0].address;
             setWalletAddress(address);
-            
+
             const network = await provider.getNetwork();
-            setChainId(Number(network.chainId));
-            
+            const currentChainId = Number(network.chainId);
+
+            setChainId(currentChainId);
+
             toast.success('Wallet Restored', {
               description: `${address.substring(0, 6)}...${address.substring(address.length - 4)}`
             });
@@ -123,14 +128,14 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         }
       }
     };
-    
+
     checkConnection();
   }, []);
 
   useEffect(() => {
     const handleAccountsChanged = (...args: unknown[]) => {
       const accounts = args[0] as string[];
-      
+
       if (accounts && accounts.length > 0) {
         setWalletAddress(accounts[0]);
         toast.info('Wallet account changed', {
@@ -146,12 +151,13 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     const handleChainChanged = (...args: unknown[]) => {
       const newChainId = args[0] as string;
       const chainIdNum = parseInt(newChainId, 16);
-      
+
       setChainId(chainIdNum);
+      setRefreshTrigger(prev => prev + 1); // Trigger portfolio refresh
       toast.info('Network changed', {
         description: `Chain ID: ${chainIdNum}`
       });
-      
+
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -171,12 +177,13 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <WalletContext.Provider value={{ 
-      walletAddress, 
-      isConnecting, 
+    <WalletContext.Provider value={{
+      walletAddress,
+      isConnecting,
       chainId,
-      connectWallet, 
-      disconnectWallet 
+      refreshTrigger,
+      connectWallet,
+      disconnectWallet
     }}>
       {children}
     </WalletContext.Provider>

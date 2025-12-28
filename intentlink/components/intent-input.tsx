@@ -16,6 +16,13 @@ export function IntentInput({ onSubmit, isLoading, placeholder = "Describe your 
     const [isFocused, setIsFocused] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+    // Clear input when loading state changes to true
+    useEffect(() => {
+        if (isLoading) {
+            setValue("");
+        }
+    }, [isLoading]);
+
     // Auto-resize textarea
     useEffect(() => {
         if (textareaRef.current) {
@@ -38,7 +45,7 @@ export function IntentInput({ onSubmit, isLoading, placeholder = "Describe your 
             {/* Glowing Border Effect */}
             <div
                 className={cn(
-                    "absolute -inset-0.5 rounded-xl bg-gradient-to-r from-primary via-secondary to-primary opacity-30 blur transition duration-1000 group-hover:opacity-70 group-hover:duration-200",
+                    "absolute -inset-0.5 rounded-xl bg-linear-to-r from-primary via-secondary to-primary opacity-30 blur transition duration-1000 group-hover:opacity-70 group-hover:duration-200",
                     isFocused ? "opacity-100 blur-md" : "opacity-30"
                 )}
             />
@@ -53,7 +60,8 @@ export function IntentInput({ onSubmit, isLoading, placeholder = "Describe your 
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                         placeholder={placeholder}
-                        className="w-full bg-transparent text-lg md:text-xl text-white placeholder:text-gray-500 p-4 focus:outline-none resize-none font-mono min-h-[80px]"
+                        disabled={isLoading}
+                        className="w-full bg-transparent text-lg md:text-xl text-white placeholder:text-gray-500 p-4 focus:outline-none resize-none font-mono min-h-20 disabled:opacity-50 disabled:cursor-not-allowed"
                         rows={1}
                     />
 
@@ -62,7 +70,7 @@ export function IntentInput({ onSubmit, isLoading, placeholder = "Describe your 
                         <motion.span
                             animate={{ opacity: [1, 0] }}
                             transition={{ repeat: Infinity, duration: 0.8 }}
-                            className="absolute top-5 left-[calc(1rem+12px)] w-2 h-6 bg-primary/50 pointer-events-none"
+                            className="absolute top-5 left-7 w-2 h-6 bg-primary/50 pointer-events-none"
                         />
                     )}
                 </div>

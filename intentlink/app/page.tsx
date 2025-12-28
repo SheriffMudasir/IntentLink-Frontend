@@ -1,4 +1,4 @@
-import { Hero } from "@/components/sections/hero";
+import { LandingHero } from "@/components/sections/landing-hero";
 import { ProblemSolution } from "@/components/sections/problem-solution";
 import { Features } from "@/components/sections/features";
 import { TechStack } from "@/components/sections/tech-stack";
@@ -6,7 +6,7 @@ import { TechStack } from "@/components/sections/tech-stack";
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      <Hero />
+      <LandingHero />
       <TechStack />
       <ProblemSolution />
       <Features />

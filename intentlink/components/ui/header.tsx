@@ -20,7 +20,7 @@ export function Header() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/30 border-b border-white/10"
+      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-black/60 border-b border-white/20 shadow-lg"
     >
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
@@ -64,7 +64,7 @@ export function Header() {
             <Button
               onClick={connectWallet}
               disabled={isConnecting}
-              className="font-display uppercase tracking-wider bg-linear-to-r from-primary to-secondary text-black font-bold hover:opacity-90 transition-opacity"
+              className="font-display uppercase tracking-wider bg-black from-primary to-secondary text-white font-bold hover:shadow-lg hover:shadow-primary/50 transition-all border border-primary/50 hover:border-primary px-6 py-2.5"
             >
               {isConnecting ? (
                 <>
