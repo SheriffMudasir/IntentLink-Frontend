@@ -15,7 +15,7 @@ export interface ParseIntentRequest {
  * Parsed intent structure from AI (Gemini 3 Pro)
  */
 export interface ParsedIntent {
-  intent_type: "stake" | "unstake" | "swap" | "lend" | "claim_rewards" | "transfer";
+  intent_type: "stake" | "unstake" | "swap" | "lend" | "claim_rewards" | "transfer" | "compound";
   asset: string;           // "BDAG"
   amount: number;          // 1000 or -1 for "all"
   amount_unit: string;     // "token"
@@ -155,6 +155,7 @@ export interface StakingPosition {
   pending_rewards_usd?: string;
   apy: string;
   staked_at?: number;
+  unlock_time?: number;  // Unix timestamp for locked positions
 }
 
 /**
@@ -243,10 +244,15 @@ export interface SecurityReportResponse {
  * Plan step for execution
  */
 export interface PlanStep {
-  action: string;
-  protocol: string;
-  amount: string;
-  token: string;
+  type: "approve" | "stake" | "unstake" | "swap" | "lend" | "compound";
+  action?: string;  // Legacy field
+  protocol?: string;  // Legacy field
+  amount?: string | number;
+  token?: string;
+  asset?: string;  // Asset symbol
+  contract?: string;  // Contract address
+  spender?: string;  // For approve steps
+  lockType?: number;  // 0=Flexible, 1=7days, 2=30days (for stake steps)
 }
 
 /**

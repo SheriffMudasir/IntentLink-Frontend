@@ -103,6 +103,13 @@ export default function AppPage() {
         processIntent(intent, walletAddress!, chainId || 1043);
     };
 
+    // Handle compound rewards
+    const handleCompound = (protocolAddress: string, rewardAmount: string) => {
+        const intent = "compound my rewards";
+        setCurrentIntent(intent);
+        processIntent(intent, walletAddress!, chainId || 1043);
+    };
+
     // Simple typewriter effect for demo purposes
     useEffect(() => {
         let i = 0;
@@ -452,6 +459,7 @@ export default function AppPage() {
                                                         walletAddress={walletAddress}
                                                         chainId={chainId}
                                                         compact={true}
+                                                        onCompound={handleCompound}
                                                     />
                                                 </div>
                                             )}
@@ -502,6 +510,7 @@ export default function AppPage() {
                                 walletAddress={walletAddress}
                                 chainId={chainId}
                                 compact={false}
+                                onCompound={handleCompound}
                             />
                         </motion.div>
                     )}

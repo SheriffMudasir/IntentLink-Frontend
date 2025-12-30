@@ -10,19 +10,22 @@ import {
     Coins,
     Gift,
     Eye,
-    EyeOff
+    EyeOff,
+    Repeat
 } from "lucide-react";
 import apiService from "@/lib/apiService";
 import { PortfolioResponse } from "@/lib/types";
 import { useWallet } from "@/contexts/WalletContext";
+import { calculateUnlockStatus } from "@/lib/utils";
 
 interface PortfolioDashboardProps {
     walletAddress: string;
     chainId: number;
     compact?: boolean;
+    onCompound?: (protocolAddress: string, rewardAmount: string) => void;
 }
 
-export function PortfolioDashboard({ walletAddress, chainId, compact = false }: PortfolioDashboardProps) {
+export function PortfolioDashboard({ walletAddress, chainId, compact = false, onCompound }: PortfolioDashboardProps) {
     const [portfolio, setPortfolio] = useState<PortfolioResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -355,26 +358,62 @@ export function PortfolioDashboard({ walletAddress, chainId, compact = false }: 
                     {portfolio.staking_positions.map((position, index) => (
                         <div
                             key={index}
-                            className="p-3 rounded-lg bg-gray-800/30 border border-white/5 flex items-center justify-between"
+                            className="p-4 rounded-lg bg-gray-800/30 border border-white/5 space-y-3"
                         >
-                            <div>
-                                <p className="text-sm font-medium text-white">{position.protocol_name}</p>
-                                <p className="text-xs text-gray-500">
-                                    {balanceVisible 
-                                        ? `${parseFloat(position.staked_amount).toFixed(4)} ${nativeSymbol}${position.staked_amount_usd ? ` (${position.staked_amount_usd})` : ''}`
-                                        : hiddenValue
-                                    }
-                                </p>
-                            </div>
-                            <div className="text-right">
+                            {/* Position Header */}
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <p className="text-sm font-medium text-white">{position.protocol_name}</p>
+                                    {/* Lock Status Badge */}
+                                    {(() => {
+                                        const unlockStatus = calculateUnlockStatus(position.unlock_time);
+                                        return (
+                                            <span
+                                                className={`px-2 py-0.5 rounded-full text-xs font-medium ${unlockStatus.isLocked
+                                                        ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                                                        : 'bg-green-500/20 text-green-400 border border-green-500/30'
+                                                    }`}
+                                            >
+                                                {unlockStatus.message}
+                                            </span>
+                                        );
+                                    })()}
+                                </div>
                                 <p className="text-sm font-medium text-green-400">{position.apy} APY</p>
-                                <p className="text-xs text-gray-500">
-                                    {balanceVisible 
-                                        ? `+${parseFloat(position.pending_rewards).toFixed(6)}${position.pending_rewards_usd ? ` (${position.pending_rewards_usd})` : ''}`
-                                        : hiddenValue
-                                    }
-                                </p>
                             </div>
+
+                            {/* Position Details */}
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-xs text-gray-400">Staked Amount</p>
+                                    <p className="text-sm text-white font-medium">
+                                        {balanceVisible
+                                            ? `${parseFloat(position.staked_amount).toFixed(4)} ${nativeSymbol}${position.staked_amount_usd ? ` (${position.staked_amount_usd})` : ''}`
+                                            : hiddenValue
+                                        }
+                                    </p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-xs text-gray-400">Pending Rewards</p>
+                                    <p className="text-sm text-yellow-400 font-medium">
+                                        {balanceVisible
+                                            ? `+${parseFloat(position.pending_rewards).toFixed(6)}${position.pending_rewards_usd ? ` (${position.pending_rewards_usd})` : ''}`
+                                            : hiddenValue
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Compound Button */}
+                            {parseFloat(position.pending_rewards) > 0 && onCompound && (
+                                <button
+                                    onClick={() => onCompound(position.protocol_address, position.pending_rewards)}
+                                    className="w-full py-2 px-4 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white text-sm font-medium flex items-center justify-center gap-2 transition-all"
+                                >
+                                    <Repeat className="w-4 h-4" />
+                                    Compound Rewards ({parseFloat(position.pending_rewards).toFixed(6)} {nativeSymbol})
+                                </button>
+                            )}
                         </div>
                     ))}
                 </div>
